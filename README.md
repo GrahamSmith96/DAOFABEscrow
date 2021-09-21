@@ -1,6 +1,6 @@
 # DAOFABEscrow
 1. DAOFAB Escrow with multi-signature scheme deployed to Rinkeby testnet   
-2. Escrow code can be found at /compound/supply-examples/solidity-contracts/LFGLobalEscrow.sol  
+2. Modified Escrow code with documentation can be found at /compound/supply-examples/solidity-contracts/LFGLobalEscrow.sol  
 
 ## Multi-Signature Scheme
 --------------------------------------------------------------------------------------------
