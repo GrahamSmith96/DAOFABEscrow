@@ -1,8 +1,23 @@
 # DAOFABEscrow
-DAOFAB Escrow with multi-signature scheme 
-Deployed to Rinkeby testnet
+1. DAOFAB Escrow with multi-signature scheme deployed to Rinkeby testnet   
+2. Escrow code can be found at /compound/supply-examples/solidity-contracts/LFGLobalEscrow.sol  
 
+## Multi-Signature Scheme
+--------------------------------------------------------------------------------------------
+The agent may elect to employ a multi-signature scheme or promulgate a multi-signature mandate by adding parties to the
+senders or receivers group represented as an array of addresses through the invocation of the addSender or addReceiver method. Each member of the senders or receivers
+group/array can choose to provide his/her signature to either sign or release the funds, which is then recorded in the respective mapping. 
+Once there are two or more addresses contained in either the senders or receivers array/group, the sender or receiver then becomes
+the representative of his/her respective group, and the sign to RELEASE and sign to REVERT functions have their requirement of obtaining
+the confirmations/signatures of all members of their group is activated. That is to say, the representative sender or receiver can neither sign to release
+nor revert the funds without the confirmations/signatures to sign or release of every member in the senders group/array for the sender or the receivers group/array
+for the receiver. If the members of the senders or receivers group cannot come to an agreement, the representative sender or receiver can call a dispute. 
 
+---------------------------------------------------------------------------------------------
+
+## Deployment
+--------------------------------------------------------------------------------------------
+Escrow is called MyContract in the deployment below
 ```
 node compound-supply-examples/solidity-contracts/supply-eth-via-solidity.js
 Supplied ETH to Compound via MyContract
@@ -50,5 +65,35 @@ Supplied ETH to Compound via MyContract
 ]
 ETH supplied to the Compound Protocol: 0.999999999853741726
 MyContract's cETH Token Balance: 33.28475492
-
 ```
+----------------------------------------------------------------------------------------------------------------
+
+## Changelog
+---------------------------------------------------------------------------------------------------------------------------
+Missing features that were added following completion of the code review were:  
+ i) setting the boolean variable disputed back to false after the agent has rendered a judgment 
+ upon review of the agreement's terms and conditions  
+
+ ii) a multi-signature approach or a signing mandate that requires the authorization of a group of signatories representing 
+ either the sender or receiver to approve the release or reversal of funds.  
+
+ iii) the agent has the authority to add parties to the senders or receivers group  
+
+ iv) agent should be able to sign twice in cases where either the sender or receiver refuses to sign or is unable to sign
+ due to a lack of consensus in the sending or receiving group.  
+ 
+ added if statement here  
+ if (msg.sender != e.agent) {  
+ require(e.signed[msg.sender] == Sign.NULL, "msg sender should not have signed already");   
+ }  
+
+ v) could use a modifier to define the variable e as a representation of the escrow with its respective referenceId beforehand i.e  
+    Record storage e = _escrow[_referenceId];  
+    _;  
+
+ vi) on line 256 _trustedParty was not defined, and so the variable was changed to _agent  
+
+ vii) renamed function amount() to funds() for greater clarity 
+ 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
